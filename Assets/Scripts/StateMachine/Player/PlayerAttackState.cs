@@ -60,6 +60,7 @@ public class PlayerAttackState : BaseAttackState
         {
             // 실제 공격 실행
             _player.PerformAttack(); 
+            Debug.Log($"{_player.gameObject.name}이(가) 공격 중");
             
             // 공격 속도에 따른 대기
             yield return new WaitForSeconds(attackCooldown);

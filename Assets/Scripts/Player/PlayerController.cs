@@ -8,10 +8,13 @@ public class PlayerController : MonoBehaviour
     public GameObject target; // 타겟
     public float searchRadius = 10f; // 탐색 반경
 
-    public void PerformAttack() // 공격 실행
+    void Start()
     {
-        // 공격 로직 구현
-        Debug.Log("공격!");
+        _stateMachine = new StateMachine(); // 상태 머신 초기화
+        _stateMachine.ChangeState(new PlayerIdleState(this)); // 초기 상태 설정
+        
+        // 자동전투 코루틴 시작
+        _combatCoroutine = StartCoroutine(CombatRoutine()); 
     }
     
     // 가장 가까운 적을 찾는 메서드
@@ -50,14 +53,16 @@ public class PlayerController : MonoBehaviour
     {
         _stateMachine.ChangeState(newState);
     }
-    
-    void Start()
+
+    public void PerformAttack() // 공격 실행
     {
-        _stateMachine = new StateMachine(); // 상태 머신 초기화
-        _stateMachine.ChangeState(new PlayerIdleState(this)); // 초기 상태 설정
-        
-        // 자동전투 코루틴 시작
-        _combatCoroutine = StartCoroutine(CombatRoutine()); 
+        // 공격 로직 구현
+    }
+   
+    // StartCoroutine을 사용할 수 있도록 추가
+    public Coroutine StartAttackCoroutine(IEnumerator routine)
+    {
+        return StartCoroutine(routine);
     }
     
     IEnumerator CombatRoutine() // 자동전투 코루틴
@@ -87,11 +92,5 @@ public class PlayerController : MonoBehaviour
             PerformAttack(); // 공격 실행
             yield return new WaitForSeconds(1f / attackSpeed); // 공격 속도에 따른 대기
         }
-    }
-
-    // StartCoroutine을 사용할 수 있도록 추가
-    public Coroutine StartAttackCoroutine(IEnumerator routine)
-    {
-        return StartCoroutine(routine);
     }
 }

@@ -17,5 +17,6 @@ public class PlayerSearchState : BaseSearchState
     {
         _player.SetTarget(target); // 타겟 설정
         _player.ChangeState(new PlayerChaseState(_player)); // 추적 상태로 변경
+        Debug.Log($"{_player.gameObject.name}이(가) 적을 발견했습니다!");
     }
 }
