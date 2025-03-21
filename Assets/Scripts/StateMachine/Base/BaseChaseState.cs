@@ -31,7 +31,7 @@ public abstract class BaseChaseState : IState
     
     public void Exit() // 정리
     {
-        Debug.Log("Exiting Chase State"); // 추적 상태 종료
+        Debug.Log("추적 상태 종료"); // 추적 상태 종료
         OnExitChase(); // 추적 상태 종료
     } 
     

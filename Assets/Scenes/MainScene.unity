@@ -755,6 +755,22 @@ MonoBehaviour:
   attackSpeed: 0.8
   target: {fileID: 0}
   searchRadius: 8
+  stats:
+    maxHealth: 50
+    currentHealth: 0
+    attackPower: 2
+    defense: 2
+    attackSpeed: 1
+    moveSpeed: 3
+    critChance: 0.05
+    critDamage: 1.5
+    lifeSteal: 0
+    level: 1
+    experiencePoints: 0
+    experienceToNextLevel: 100
+    experienceReward: 20
+    goldReward: 10
+    enemyType: 0
 --- !u!1 &28932086
 GameObject:
   m_ObjectHideFlags: 0
@@ -3766,6 +3782,22 @@ MonoBehaviour:
   attackSpeed: 1
   target: {fileID: 0}
   searchRadius: 10
+  stats:
+    maxHealth: 100
+    currentHealth: 0
+    attackPower: 20
+    defense: 5
+    attackSpeed: 1
+    moveSpeed: 3
+    critChance: 0.05
+    critDamage: 1.5
+    lifeSteal: 0
+    level: 1
+    experiencePoints: 0
+    experienceToNextLevel: 100
+    goldGainMultiplier: 1
+    expGainMultiplier: 1
+    skillPoints: 0
 --- !u!1 &202171190
 GameObject:
   m_ObjectHideFlags: 0

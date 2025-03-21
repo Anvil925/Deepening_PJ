@@ -7,7 +7,7 @@ public abstract class BaseAttackState : IState
     
     public void Enter()
     {
-        Debug.Log("Entering Attack State");
+        Debug.Log("공격 상태 진입");
         OnEnterAttack(); // 공격 상태 진입
     }
     
