@@ -8,6 +8,18 @@ public class EnemyController : MonoBehaviour
     public GameObject target; // 타겟
     public float searchRadius = 8f; // 탐색 반경
 
+    [SerializeField] private EnemyStats stats = new EnemyStats();
+    private StatsComponent statsComponent;
+
+    private void Awake()
+    {
+        statsComponent = GetComponent<StatsComponent>();
+        if (statsComponent == null)
+        {
+            statsComponent = gameObject.AddComponent<StatsComponent>();
+        }
+    }
+
     private void Start()
     {
         _stateMachine = new StateMachine();
@@ -47,10 +59,12 @@ public class EnemyController : MonoBehaviour
         // 적의 공격 구현
         Debug.Log($"{gameObject.name}이(가) 공격!");
 
-        // 나중에 구현: 타겟에게 데미지 주기
+        if (target != null && target.TryGetComponent<StatsComponent>(out var targetStats))
+        {
+            float damage = statsComponent.CalculateDamage();
+            targetStats.TakeDamage(damage);
+        }
     }
-
-
 
     public void SetTarget(GameObject newTarget) // 타겟 설정 메서드
     {

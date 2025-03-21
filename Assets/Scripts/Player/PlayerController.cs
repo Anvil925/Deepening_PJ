@@ -8,6 +8,18 @@ public class PlayerController : MonoBehaviour
     public GameObject target; // 타겟
     public float searchRadius = 10f; // 탐색 반경
 
+    [SerializeField] private PlayerStats stats = new PlayerStats();
+    private StatsComponent statsComponent;
+
+    private void Awake()
+    {
+        statsComponent = GetComponent<StatsComponent>(); // StatsComponent 컴포넌트 가져오기
+        if (statsComponent == null)
+        {
+            statsComponent = gameObject.AddComponent<StatsComponent>(); 
+        }
+    }
+
     void Start()
     {
         _stateMachine = new StateMachine(); // 상태 머신 초기화
@@ -34,7 +46,7 @@ public class PlayerController : MonoBehaviour
             float distance = Vector3.Distance(transform.position, col.transform.position); // 거리 계산
             if (distance < nearestDistance) // 가장 가까운 적 갱신
             {
-                nearestDistance = distance; 
+                nearestDistance = distance;
                 nearestEnemy = col.gameObject;
             }
         }
@@ -56,7 +68,13 @@ public class PlayerController : MonoBehaviour
 
     public void PerformAttack() // 공격 실행
     {
-        // 공격 로직 구현
+        Debug.Log($"{gameObject.name}이(가) 공격!");
+        
+        if (target != null && target.TryGetComponent<StatsComponent>(out var targetStats)) // 타겟이 StatsComponent를 가지고 있다면
+        {
+            float damage = statsComponent.CalculateDamage(); // 데미지 계산
+            targetStats.TakeDamage(damage); // 데미지 적용
+        }
     }
    
     // StartCoroutine을 사용할 수 있도록 추가
