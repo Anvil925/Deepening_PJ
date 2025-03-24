@@ -12,6 +12,15 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private EnemyStats stats = new EnemyStats();
     private StatsComponent statsComponent;
 
+    public float GoldReward
+    {
+        get
+        {
+            // 기본 골드 보상에 타입 배율 적용
+            return stats.goldReward * stats.GetRewardMultiplier();
+        }
+    }
+
     private void Awake()
     {
         statsComponent = GetComponent<StatsComponent>();

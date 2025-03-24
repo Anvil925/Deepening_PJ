@@ -44,7 +44,15 @@ public class EnemyDeadState : BaseDeadState
     
     private void GiveRewards()
     {
-        // 경험치, 골드 등 보상 지급
+        if (GameManager.Instance != null)
+        {
+            // 게임 매니저에서 경험치, 골드 보상 처리
+            GameManager.Instance.OnEnemyDefeated(enemy.gameObject);
+
+            // 적의 골드 보상 직접 전달
+            // GameManager.Instance.AddGold(enemy.GoldReward);
+            
+        }
         if (enemy.target != null && enemy.target.TryGetComponent<PlayerController>(out var player))
         {
             // 플레이어에게 보상 지급
