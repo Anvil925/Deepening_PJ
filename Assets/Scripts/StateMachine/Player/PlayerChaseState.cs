@@ -24,9 +24,10 @@ public class PlayerChaseState : BaseChaseState
     
     protected override void MoveTowardsTarget()
     {
-        // 플레이어를 타겟 방향으로 이동시키는 로직
-        // 예: Vector3.MoveTowards 또는 NavMeshAgent 사용
-        Debug.Log("플레이어가 타겟을 향해 이동 중");
+        if (_player.target != null)
+        {
+            _player.MoveToTarget(_player.target.transform.position);
+        }
     }
     
     protected override void TransitionToAttack()

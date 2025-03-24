@@ -25,6 +25,6 @@ public class EnemyIdleState : BaseIdleState
     {
         // 대기 상태에서의 행동
         // 예: 제자리 배회, 주변 둘러보기 등
-        Debug.Log($"{_enemy.gameObject.name}이(가) 대기 중...");
+        // Debug.Log($"{_enemy.gameObject.name}이(가) 대기 중...");
     }
 }

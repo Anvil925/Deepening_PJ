@@ -10,11 +10,14 @@ public class PlayerAttackState : BaseAttackState
     public PlayerAttackState(PlayerController player)
     {
         this._player = player; 
-        this.attackCooldown = 1f / player.attackSpeed;
+        this.attackCooldown = 1f / player.AttackSpeed; // 공격 속도에 따른 쿨타임 계산
     }
     
     protected override void OnEnterAttack()
     {
+        // 공격 상태 진입 시 이동 중지
+        _player.StopMoving();
+        
         // 공격 코루틴 시작
         _attackCoroutine = _player.StartCoroutine(AttackRoutine());
     }
@@ -28,7 +31,24 @@ public class PlayerAttackState : BaseAttackState
     
     protected override bool IsTargetValid()
     {
-        return _player.target != null; // 타겟이 유효한지 확인
+        // 기존 검사: 타겟이 null이 아닌지
+        if (_player.target == null) return false;
+        
+        // 추가 검사: 타겟이 살아있는지
+        StatsComponent targetStats = _player.target.GetComponent<StatsComponent>();
+        if (targetStats == null || !targetStats.IsAlive)
+        {
+            HandleDeadTarget();
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private void HandleDeadTarget()
+    {
+        Debug.Log("죽은 타겟 감지, 타겟 초기화");
+        _player.SetTarget(null);
     }
     
     protected override bool IsInAttackRange()

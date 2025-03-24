@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour
     public float attackSpeed = 0.8f;  // 플레이어보다 약간 느림
     public GameObject target; // 타겟
     public float searchRadius = 8f; // 탐색 반경
+    public bool isDead = false; // 사망 여부
 
     [SerializeField] private EnemyStats stats = new EnemyStats();
     private StatsComponent statsComponent;
@@ -18,6 +19,12 @@ public class EnemyController : MonoBehaviour
         {
             statsComponent = gameObject.AddComponent<StatsComponent>();
         }
+
+        if (statsComponent != null)
+        {
+            statsComponent.baseStats = stats;
+            statsComponent.baseStats.Initialize();
+        }
     }
 
     private void Start()
@@ -28,6 +35,11 @@ public class EnemyController : MonoBehaviour
 
         // 상태머신 업데이트 코루틴 시작
         StartCoroutine(StateMachineRoutine());
+
+        if (statsComponent != null)
+        {
+            Debug.Log($"{gameObject.name} 체력: {statsComponent.baseStats.currentHealth}");
+        }
     }
 
     public GameObject FindNearestPlayer()
@@ -74,6 +86,11 @@ public class EnemyController : MonoBehaviour
     public void ChangeState(IState newState) // 상태 변경 메서드
     {
         _stateMachine.ChangeState(newState); // 상태 변경
+    }
+
+    public void MarkAsDead()
+    {
+        isDead = true;
     }
 
     private IEnumerator StateMachineRoutine() // 상태머신 업데이트 코루틴

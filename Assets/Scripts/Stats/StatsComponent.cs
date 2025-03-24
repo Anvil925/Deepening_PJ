@@ -13,11 +13,6 @@ public class StatsComponent : MonoBehaviour
     
     public bool IsAlive => baseStats.currentHealth > 0; // 살아있는지 여부
     
-    private void Start() 
-    {
-        baseStats.Initialize();
-    }
-    
     public void TakeDamage(float damage)
     {
         float actualDamage = baseStats.TakeDamage(damage); // 실제로 받은 대미지

@@ -3,26 +3,33 @@ using UnityEngine;
 
 public abstract class BaseSearchState : IState
 {
-    protected abstract GameObject FindTarget(); // 타겟 찾기
-    
     public void Enter()
     {
-        throw new NotImplementedException(); // 초기화 
+        Debug.Log("서치 상태 진입");
+        OnEnterSearch();
     }
 
     public void Execute()
     {
-        GameObject target = FindTarget(); // 타겟 찾기
-        if (target != null) // 타겟이 있으면
+        GameObject target = FindTarget();
+        
+        if (target != null)
         {
-            OnTargetFound(target); // 타겟 찾음
+            OnTargetFound(target);
         }
     }
 
     public void Exit()
     {
-        throw new NotImplementedException(); // 정리
+        Debug.Log("서치 상태 종료");
+        OnExitSearch();
     }
 
-    protected abstract void OnTargetFound(GameObject target); // 타겟 찾음
+    // 자식 클래스에서 구현할 추상 메서드들
+    protected abstract GameObject FindTarget();
+    protected abstract void OnTargetFound(GameObject target);
+
+    // 선택적 메서드들
+    protected virtual void OnEnterSearch() { }
+    protected virtual void OnExitSearch() { }
 }

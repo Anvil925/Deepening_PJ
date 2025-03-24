@@ -12,12 +12,12 @@ public class PlayerIdleState : BaseIdleState
     
     protected override void CheckForTransition()
     {
-        // 주변에 적이 있는지 확인
+        Debug.Log("적 탐색 중...");
         GameObject nearestEnemy = _player.FindNearestEnemy();
         
         if (nearestEnemy != null)
         {
-            // 적을 발견하면 타겟 설정 후 추적 상태로 전환
+            Debug.Log($"적 발견: {nearestEnemy.name}");
             _player.SetTarget(nearestEnemy);
             _player.ChangeState(new PlayerChaseState(_player));
         }

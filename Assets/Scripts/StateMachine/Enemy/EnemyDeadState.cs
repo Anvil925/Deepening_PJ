@@ -14,14 +14,14 @@ public class EnemyDeadState : BaseDeadState
     {
         // 사망 처리
         Debug.Log($"{enemy.gameObject.name} 사망!");
-        
-        // 전리품 드롭 처리
         DropLoot();
+        GiveRewards();        
+        NotifyPlayersOfDeath();
         
-        // 경험치와 골드 보상 처리
-        GiveRewards();
+        // 충돌 비활성화 (물리적 상호작용 방지)
+        DisableColliders();
         
-        // 시체 사라짐 효과 (페이드 아웃 등)
+        // 나머지 기존 코드...
         enemy.StartCoroutine(DisappearCorpse());
     }
     
@@ -67,5 +67,34 @@ public class EnemyDeadState : BaseDeadState
         
         // 오브젝트 비활성화 또는 제거 준비
         PrepareRespawn();
+    }
+
+    private void NotifyPlayersOfDeath()
+    {
+        // 이 적을 타겟으로 하는 모든 플레이어 찾기
+        PlayerController[] players = GameObject.FindObjectsOfType<PlayerController>();
+        foreach (var player in players)
+        {
+            // 만약 이 적이 플레이어의 타겟이라면
+            if (player.target == enemy.gameObject)
+            {
+                Debug.Log("플레이어의 타겟 초기화 및 상태 변경");
+                player.SetTarget(null);
+                player.ChangeState(new PlayerSearchState(player)); // 새 타겟 찾도록 서치 상태로 변경
+            }
+        }
+    }
+
+    private void DisableColliders()
+    {
+        // 충돌 처리 비활성화
+        Collider[] colliders = enemy.GetComponents<Collider>();
+        foreach (var collider in colliders)
+        {
+            collider.enabled = false;
+        }
+        
+        // 적의 상태 표시 (선택사항)
+        // enemy.gameObject.layer = LayerMask.NameToLayer("DeadEnemy"); // "DeadEnemy" 레이어 필요
     }
 }
