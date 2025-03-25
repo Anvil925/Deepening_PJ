@@ -62,7 +62,7 @@ public class GoldDisplay : MonoBehaviour
             formattedGold = $"{goldValue:N0}";
         }
         
-        goldText.text = $"Gold: {formattedGold}";
+        goldText.text = $"{formattedGold}";
     }
     
     private void OnDestroy()
