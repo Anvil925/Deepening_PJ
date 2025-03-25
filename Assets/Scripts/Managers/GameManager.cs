@@ -214,15 +214,25 @@ public class GameManager : MonoBehaviour
     
     public void OnEnemyDefeated(GameObject enemy)
     {
-        // 적 종류나 레벨에 따라 골드 보상 결정
-        float goldReward = 10f; // 기본값
+        // 적 컨트롤러 참조 가져오기
+        EnemyController enemyController = enemy.GetComponent<EnemyController>();
+        if (enemyController == null) return;
         
-        // 여기에 적 종류나 레벨에 따른 보상 계산 로직 추가
+        // 1. 적으로부터 골드 보상 가져오기
+        float goldReward = enemyController.GoldReward;
         
-        // 골드 지급
+        // 2. 플레이어의 골드 획득 배율 적용 (선택사항)
+        if (playerController != null && playerController.TryGetComponent<StatsComponent>(out var stats))
+        {
+            PlayerStats playerStats = stats.baseStats as PlayerStats;
+            if (playerStats != null)
+            {
+                goldReward *= playerStats.goldGainMultiplier;
+            }
+        }
+        
+        // 3. 골드 지급
         AddGold(goldReward);
-        
-        // 여기에 UI 이펙트 추가
     }
     
     #endregion

@@ -16,8 +16,15 @@ public class EnemyController : MonoBehaviour
     {
         get
         {
-            // 기본 골드 보상에 타입 배율 적용
-            return stats.goldReward * stats.GetRewardMultiplier();
+            // 스탯 컴포넌트가 없으면 기본값 반환
+            if (statsComponent == null || !(statsComponent.baseStats is EnemyStats)) 
+                return 10f;
+                
+            // EnemyStats에서 골드 보상 가져오기
+            EnemyStats enemyStats = statsComponent.baseStats as EnemyStats;
+            
+            // 골드 보상 * 보상 배율 (타입별 배율)
+            return enemyStats.goldReward * enemyStats.GetRewardMultiplier();
         }
     }
 
